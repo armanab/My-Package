@@ -9,14 +9,122 @@ import {BehaviorSubject} from 'rxjs';
  */
  export class FileNode {
   children: FileNode[] = [];
-  filename!: string;
-  type: any;
+  displayName: string='';
+  iconName: string='';
+  route: string='';
+
 }
 
 /**
  * The Json tree data in string. The data could be parsed into Json object
  */
- const TREE_DATA = JSON.stringify({
+
+ const TREE_DATA = JSON.stringify([{
+  displayName: 'داشبورد',
+  iconName: 'recent_actors',
+  route: '/panel'
+}, {
+  displayName: 'مدیریت مشتریان',
+  iconName: 'group',
+  route: '',
+  children: [{
+          displayName: 'اشخاص حقیقی',
+          iconName: 'group',
+          route: '',
+          children: [
+              {
+                  displayName: 'استعلام اشخاص حقیقی ایرانی',
+                  iconName: 'horizontal_rule',
+                  route: '/panel/customer-management/inquiry-real-person'
+              }, {
+                  displayName: 'استعلام شخص حقیقی غیر ایرانی با شناسه فراگیر',
+                  iconName: 'horizontal_rule',
+                  route: '/panel/customer-management/inquiry-non-iranian-real-person-identification-no',
+                  
+
+              }, {
+                  displayName: 'استعلام شخص حقیقی غیر ایرانی با  شماره پاسپورت',
+                  iconName: 'horizontal_rule',
+                  route: '/panel/customer-management/real-person-foreign-passport-inquiry'
+              }
+          ]
+      }, {
+          displayName: 'اشخاص حقوقی',
+          iconName: 'group',
+          route: '',
+          children: [{
+                  displayName: 'استعلام شخص حقوقی ایرانی با شناسه ملی',
+                  iconName: 'horizontal_rule',
+                  route: '/panel/customer-management/legal-person-persian-identification-inquiry'
+              }, {
+                  displayName: 'استعلام شخص حقوقی ایرانی بدون شناسه ملی',
+                  iconName: 'horizontal_rule',
+                  route: '/panel/customer-management/legal-person-persian-wo-identification-inquiry'
+              }
+          ]
+      },
+  ]
+}, {
+  displayName: 'گروه بندی اشخاص',
+  iconName: 'reduce_capacity',
+  route: '',
+  children: [{
+          displayName: 'گروه بندی اشخاص',
+          iconName: 'horizontal_rule',
+          route: '/panel/grouping-person/groupingPerson',
+      }, {
+          displayName: 'تخصیص شخص به گروه',
+          iconName: 'horizontal_rule',
+          route: '/panel/grouping-person/show-people',
+      },
+      {
+          displayName: '  نمایش اشخاص',
+          iconName: 'horizontal_rule',
+          route: '',
+      },
+  ]
+}, {
+  displayName: 'مدیریت واحد های همکار',
+  iconName: 'manage_accounts',
+  route: '',
+  children: [{
+          displayName: 'تعریف واحد همکار',
+          iconName: 'group',
+          route: '',
+          children: [{
+                  displayName: 'نمایش واحد همکار',
+                  iconName: 'horizontal_rule',
+                  route: ''
+              }, {
+                  displayName: 'افزودن واحد همکار',
+                  iconName: 'horizontal_rule',
+                  route: '/panel/add-unit-teammate/addunit'
+              }, {
+                  displayName: 'لیست واحد همکار',
+                  iconName: 'horizontal_rule',
+                  route: '/panel/add-unit-teammate/teamunit'
+              }
+          ]
+      },
+  ]
+}, {
+  displayName: 'حسابداری ',
+  iconName: 'point_of_sale',
+  route: 'disney'
+
+}, {
+  displayName: '  دریافت و پرداخت',
+  iconName: 'credit_card',
+  route: 'disney'
+
+}
+
+]
+);
+
+
+
+ const TREE_DATA1 = JSON.stringify({
   Applications: {
     Calendar: 'app',
     Chrome: 'app',
@@ -52,6 +160,7 @@ import {BehaviorSubject} from 'rxjs';
   }
 });
 
+
 @Injectable()
 export class FileDatabase {
   dataChange = new BehaviorSubject<FileNode[]>([]);
@@ -64,37 +173,21 @@ export class FileDatabase {
 
   initialize() {
     // Parse the string to json object.
-    const dataObject = JSON.parse(TREE_DATA);
-
+    const dataObject:Array<FileNode> = JSON.parse(TREE_DATA) as Array<FileNode>;
+  //  const data= Array.of(dataObject);
     // Build the tree nodes from Json object. The result is a list of `FileNode` with nested
     //     file node as children.
-    const data = this.buildFileTree(dataObject, 0);
+    // const data = this.buildFileTree(dataObject, 0);
 
     // Notify the change.
-    this.dataChange.next(data);
+    this.dataChange.next(dataObject);
   }
 
   /**
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `FileNode`.
    */
-  buildFileTree(obj: {[key: string]: any}, level: number): FileNode[] {
-    return Object.keys(obj).reduce<FileNode[]>((accumulator, key) => {
-      const value = obj[key];
-      const node = new FileNode();
-      node.filename = key;
-
-      if (value != null) {
-        if (typeof value === 'object') {
-          node.children = this.buildFileTree(value, level + 1);
-        } else {
-          node.type = value;
-        }
-      }
-
-      return accumulator.concat(node);
-    }, []);
-  }
+ 
 }
 
 
@@ -123,7 +216,10 @@ export class MenuComponent implements OnInit {
   }
 
   
-  hasNestedChild = (_: number, nodeData: FileNode) => !nodeData.type;
+  hasNestedChild = (_: number, nodeData: FileNode) => {
+     return nodeData.children && nodeData.children.length>0;
+  
+      }
 
   private _getChildren = (node: FileNode) => node.children;
  

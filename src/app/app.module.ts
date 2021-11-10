@@ -9,11 +9,13 @@ import { MenuComponent } from './menu/menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatModule } from './mat/mat.module';
+import { DisneyComponent } from './disney/disney.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    DisneyComponent
   ],
   imports: [
     BrowserModule,
