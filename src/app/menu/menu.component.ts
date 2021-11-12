@@ -124,41 +124,6 @@ import {BehaviorSubject} from 'rxjs';
 
 
 
- const TREE_DATA1 = JSON.stringify({
-  Applications: {
-    Calendar: 'app',
-    Chrome: 'app',
-    Webstorm: 'app'
-  },
-  Documents: {
-    angular: {
-      src: {
-        compiler: 'ts',
-        core: 'ts'
-      }
-    },
-    material2: {
-      src: {
-        button: 'ts',
-        checkbox: 'ts',
-        input: 'ts'
-      }
-    }
-  },
-  Downloads: {
-    October: 'pdf',
-    November: 'pdf',
-    Tutorial: 'html'
-  },
-  Pictures: {
-    'Photo Booth Library': {
-      Contents: 'dir',
-      Pictures: 'dir'
-    },
-    Sun: 'png',
-    Woods: 'jpg'
-  }
-});
 
 
 @Injectable()
@@ -174,20 +139,12 @@ export class FileDatabase {
   initialize() {
     // Parse the string to json object.
     const dataObject:Array<FileNode> = JSON.parse(TREE_DATA) as Array<FileNode>;
-  //  const data= Array.of(dataObject);
-    // Build the tree nodes from Json object. The result is a list of `FileNode` with nested
-    //     file node as children.
-    // const data = this.buildFileTree(dataObject, 0);
+
 
     // Notify the change.
     this.dataChange.next(dataObject);
   }
 
-  /**
-   * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
-   * The return value is the list of `FileNode`.
-   */
- 
 }
 
 

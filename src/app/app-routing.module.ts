@@ -3,13 +3,17 @@ import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
+const routes: Routes = [{
+  path: '',
+  redirectTo: 'panel',
+  pathMatch: 'full'
+},
   {
     path: '',
-    
+   
     children: [
       {
-        path: '',
+        path: 'panel',
         loadChildren: () => import('./panel/panel.module').then(mod => mod.PanelModule)
       },
       {

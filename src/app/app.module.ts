@@ -10,12 +10,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatModule } from './mat/mat.module';
 import { DisneyComponent } from './disney/disney.component';
+import { PanelModule } from './panel/panel.module';
+
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     DisneyComponent
+    
+  
   ],
   imports: [
     BrowserModule,
@@ -24,6 +30,7 @@ import { DisneyComponent } from './disney/disney.component';
     FlexLayoutModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    PanelModule,
     FormsModule,
     HttpClientModule
   ],
