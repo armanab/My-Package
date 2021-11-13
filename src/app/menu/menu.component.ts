@@ -183,7 +183,6 @@ return currentNode;
           // return result;
           break;
         }
-        // if (result) return result
       }
     }
     return res;
@@ -219,7 +218,7 @@ export class MenuComponent implements OnInit {
 if(!currentPath)
 currentPath="/";
 
-    const ddd=this._getChildren;
+    
     const currentNodes=this.database.findNodesByRoute(this.database.data,currentPath);
   
     currentNodes.forEach((item: FileNode)=>{
