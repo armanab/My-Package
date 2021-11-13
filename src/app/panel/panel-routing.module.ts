@@ -27,6 +27,18 @@ const routes: Routes = [
       path: 'customer-management/inquiry-non-iranian-real-person-identification-no',
       component: CustomermanagementComponent,
       data: { title: 'customer-management', breadcrumb: 'Customer-Management' }
+    },
+
+    {
+      path: 'customer-management/legal-person-persian-identification-inquiry',
+      component: CustomermanagementComponent,
+      data: { title: 'customer-management', breadcrumb: 'Customer-Management' }
+    },
+
+    {
+      path: 'grouping-person/groupingPerson',
+      component: CustomermanagementComponent,
+      data: { title: 'customer-management', breadcrumb: 'Customer-Management' }
     }
 
 

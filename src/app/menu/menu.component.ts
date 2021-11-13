@@ -164,14 +164,29 @@ return currentNode;
   }
 
 
-   findById(data:FileNode[], route:string):any {
+   findNodesByRoute(data:FileNode[], route:string):FileNode[] {
+     const res=[];
     for (const item of data) {
-      if (item.route == route) return item
+      if (item.route == route) {
+        res.push(item);
+        break;
+        // return item;
+      }
       if (item.children) {
-        let result = this.findById(item.children, route)
-        if (result) return result
+        let result = this.findNodesByRoute(item.children, route);
+        
+        if (result && result.length>0) {
+          res.push(item);
+          result.forEach((itm: FileNode)=>{
+            res.push(itm)
+          })
+          // return result;
+          break;
+        }
+        // if (result) return result
       }
     }
+    return res;
   }
 
 }
@@ -196,22 +211,20 @@ export class MenuComponent implements OnInit {
     this.nestedTreeControl = new NestedTreeControl<FileNode>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
 
-// router.events.subscribe((url:any) =>{ 
-//   console.log(url);
-// });
-//     // this.nestedTreeControl.expand();
     database.dataChange.subscribe(data => this.nestedDataSource.data = data);
   }
   ngOnInit(): void {
-    debugger;
-var xx=this.location.path();
- const ddd=this._getChildren;
- const xdf=this.database.findById(this.database.data,xx);
- const xdf1=this.database.dataChange.value[1];
- this.nestedTreeControl.expand(xdf1);
- this.nestedTreeControl.expand(xdf);
+   
+    var currentPath=this.location.path();
+if(!currentPath)
+currentPath="/";
 
-
+    const ddd=this._getChildren;
+    const currentNodes=this.database.findNodesByRoute(this.database.data,currentPath);
+  
+    currentNodes.forEach((item: FileNode)=>{
+      this.nestedTreeControl.expand(item);
+    })
 
   }
 
