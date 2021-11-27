@@ -12,7 +12,7 @@ This is a solution template for creating tree or child/parent menu menus  in Ang
 
 With this component, you can have several menu levels for your child
 
-There is a variable in the component file called "TREE_DATA" that JSON Menus is for testing. You can get Json data menu from the server or the api
+There is a variable in the menu.component.ts file called "TREE_DATA" that JSON Menus is for testing. You can get Json data menu from the server or the api
 
 
 </br>
